@@ -281,13 +281,30 @@
         }
 
         /* Balloon Animation */
+        /* Balloon Animation */
         .balloon-container {
             position: fixed;
-            top: 15%;
-            right: 10%;
-            /* Initial position */
             z-index: 50;
-            animation: floatBalloon 6s ease-in-out infinite alternate;
+            top: 100%;
+            /* Start from bottom */
+            left: -150px;
+            /* Start from left outside */
+            animation: flyAcross 35s linear infinite;
+            /* Takes 35s to cross, repeats */
+            pointer-events: none;
+            /* Make sure it doesn't block text */
+        }
+
+        /* Movement across screen */
+        @keyframes flyAcross {
+            0% {
+                transform: translate(0, 0) scale(0.8) rotate(2deg);
+            }
+
+            100% {
+                transform: translate(120vw, -120vh) scale(0.8) rotate(-2deg);
+                /* Fly to Top Right */
+            }
         }
 
         .hot-air-balloon {
@@ -349,16 +366,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-        }
-
-        @keyframes floatBalloon {
-            0% {
-                transform: translateY(0) rotate(2deg);
-            }
-
-            100% {
-                transform: translateY(-30px) rotate(-2deg);
-            }
         }
     </style>
 </head>
