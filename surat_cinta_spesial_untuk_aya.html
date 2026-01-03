@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Untuk Aya, Semestaku</title>
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* CSS INLINED FOR PORTABILITY */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+        :root {
+            --bg-color: #0f172a;
+            --accent-color: #e2e8f0;
+            --gold: #fadfa1;
+            --romantic-pink: #ffafbd;
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --text-primary: #f8fafc;
+            --text-secondary: #cbd5e1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #fadfa1, #ffafbd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 2s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            animation: fadeInUp 2s ease-out 0.5s backwards;
+        }
+
+        /* Glass Cards */
+        .card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            opacity: 0;
+            /* Hidden initial state for scroll reveal */
+            transform: translateY(30px);
+        }
+
+        .card.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 1s ease-out, transform 1s ease-out;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Typography styles */
+        .letter-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            text-align: justify;
+        }
+
+        .signature {
+            text-align: right;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            color: var(--romantic-pink);
+        }
+
+        blockquote {
+            border-left: 3px solid var(--gold);
+            padding-left: 1.5rem;
+            font-style: italic;
+            margin: 2rem 0;
+            color: var(--text-secondary);
+        }
+
+        /* Proklamasi Specifics */
+        .proklamasi-card {
+            border: 2px solid var(--gold);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .proklamasi-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(250, 223, 161, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        .proklamasi-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .date-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 2rem 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .date-item strong {
+            display: block;
+            font-size: 1.5rem;
+            color: var(--romantic-pink);
+        }
+
+        /* Footer & Music */
+        .music-control {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 50%;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s;
+        }
+
+        .music-control:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Falling Elements */
+        #falling-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .falling-element {
+            position: absolute;
+            top: -10%;
+            color: rgba(255, 175, 189, 0.6);
+            /* Default petal color */
+            font-size: 20px;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+
+            .date-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="falling-container"></div>
+
+    <div class="music-control" id="music-btn">
+        <i class="fas fa-play"></i>
+    </div>
+    <!-- Placeholder audio - user can replace source -->
+    <audio id="bg-music" loop>
+        <source src="https://assets.mixkit.co/music/preview/mixkit-romantic-piano-slow-660.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="container">
+
+        <!-- Hero Section -->
+        <header class="hero">
+            <h1>Untuk Aya, Semestaku</h1>
+            <p>Sebuah surat kecil untuk seseorang yang mengubah duniaku.</p>
+            <div style="margin-top: 2rem; font-size: 2rem; color: var(--romantic-pink);">
+                <i class="fas fa-chevron-down" style="animation: fadeInUp 1s infinite alternate;"></i>
+            </div>
+        </header>
+
+        <!-- The Letter Card -->
+        <section class="card letter-content">
+            <p>Haii ayaaaa maniskuu, cintakuu, sayangkuu, cantikku, duniakuuu, semestakuu...</p>
+            <p>Mungkin kita nggak pernah mikir kita bakal kenal ya, sayangku Aya. Mungkin dari yang awal panggilannya
+                cuma "Moci" dan "Om Rand". Tapi dari awal cara Aya ke Afa itu... Afa suka banget sama Aya.</p>
+            <p>Dari sekian banyak cewek yang pernah Afa temuin, Afa suka dari cara Aya, semua tentang Aya. Ketemunya di
+                Roblox lagi, hehe.</p>
+            <p>Afa juga kaget ada cewek kaya Aya yang udah cantik, manis, imut, lucu. Cuma Aya yang bisa bikin Afa
+                begini. Orang lain <em>never know what I feel</em>, tapi Afa rasa Aya tuh ngerti semua.</p>
+            <p>Rasanya dunia itu beda semenjak ada Aya, jadi jauh lebih indah.</p>
+        </section>
+
+        <!-- Journal Quote Card -->
+        <section class="card">
+            <h2>Musim yang Menyenangkan</h2>
+            <blockquote>
+                "Di antara daun-daun yang jatuh, aku bersyukur bertemu dan ada, untuk melihat daun-daun dan bunga-bunga
+                yang bermekaran bersamamu."
+            </blockquote>
+            <p>Makasih ya, sejak ada Aya, Afa lebih merhatiin hal-hal kecil yang mungkin Aya nggak tau segimana itu
+                berharga buat Afa.</p>
+            <p>Afa nggak tau ini salah atau benar, tapi Afa suka semua cara Aya.</p>
+        </section>
+
+        <!-- Proklamasi Card -->
+        <section class="card proklamasi-card">
+            <h2 class="proklamasi-title">Proklamasi <br> Hari Jadian Afa & Aya</h2>
+
+            <p style="font-style: italic; margin-bottom: 2rem;">Kami, Afa dan Aya, dengan ini menyatakan bahwa pada:</p>
+
+            <div class="date-grid">
+                <div class="date-item">🗓 <br><strong>1</strong></div>
+                <div class="date-item">📆 <br><strong>Januari</strong></div>
+                <div class="date-item">📍 <br><strong>2026</strong></div>
+            </div>
+
+            <p>Telah disepakati dan diikrarkan sebuah permulaan, bukan sekadar tentang dua nama yang saling menyapa,
+                melainkan dua hati yang memilih untuk berjalan searah.</p>
+            <br>
+            <p>Maka pada hari ini, kami memproklamasikan ikatan rasa, yang lahir dari ketulusan, tumbuh dalam kesabaran,
+                dan berjanji untuk dijaga dengan kejujuran serta pengertian.</p>
+            <br>
+            <p>Segala rindu, tawa, perbedaan, dan luka akan kami jadikan pelajaran, agar cinta ini tidak hanya bertahan,
+                namun juga dewasa dan bermakna.</p>
+
+            <div style="margin-top: 3rem; font-family: 'Playfair Display'; font-size: 1.2rem;">
+                <p>Yang memproklamasikan,</p>
+                <p style="font-size: 2rem; color: var(--gold); margin-top: 1rem;">Afa ❤️ Aya</p>
+            </div>
+        </section>
+
+        <!-- The Promise Card -->
+        <section class="card">
+            <h2>Janji Kita</h2>
+            <p>Pada detik ketika waktu memilih untuk berhenti sejenak, pada 1 Januari 2026, kami mengikrarkan sebuah
+                mula: dua jiwa yang lelah sendiri, kini belajar pulang pada satu nama.</p>
+
+            <blockquote>
+                "Kami tidak menjanjikan langit selalu cerah, namun kami berjanji berjalan meski hujan turun tanpa
+                aba-aba."
+            </blockquote>
+
+            <p>Biarlah hari ini menjadi saksi, bahwa cinta bukan sekadar rasa, melainkan keberanian untuk tinggal,
+                ketika pergi terasa lebih mudah.</p>
+        </section>
+
+        <!-- Closing Message -->
+        <section class="card">
+            <p>Aya sayang... mungkin kedepannya banyak masalahnya. Mungkin ada sesuatu yang Aya nggak suka dari Afa, dan
+                sesuatu yang Afa nggak suka dari Aya. Tapi kita harus saling bicara, jelasin semuanya.</p>
+            <p><em>Your feelings are incredibly important to me, and I want to make it right. I want to know you and
+                    care for you deeply.</em></p>
+            <p><em>No matter how busy you are, don't forget to rest well, eat well, take medicine, and love yourself
+                    well.</em></p>
+            <p>Di akhir kata, Aya jangan pernah ngerasa sendiri ya. Kalau sama Afa, <strong>I'll be here always for
+                    you.</strong></p>
+            <br>
+            <p>Di akhir sekali, kita cuma manusia biasa. Hati manusia berubah-ubah, tapi kita usahain buat hati kita
+                selalu ada untuk orang yang kita sayang.</p>
+
+            <div class="signature">
+                Always yours, <br> Afa
+            </div>
+        </section>
+
+        <footer style="text-align: center; padding: 4rem 0 2rem; color: var(--text-secondary); font-size: 0.9rem;">
+            <p>Made with all my heart for Aya.</p>
+            <p><i class="fas fa-heart" style="color: var(--romantic-pink);"></i> 2026</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // JS INLINED FOR PORTABILITY
+        document.addEventListener('DOMContentLoaded', () => {
+            // Music Control
+            const musicBtn = document.getElementById('music-btn');
+            const bgMusic = document.getElementById('bg-music');
+            let isPlaying = false;
+
+            musicBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    bgMusic.pause();
+                    musicBtn.innerHTML = '<i class="fas fa-play"></i>';
+                } else {
+                    bgMusic.play().catch(error => console.log("Audio playback failed:", error));
+                    musicBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                }
+                isPlaying = !isPlaying;
+            });
+
+            // Scroll Observer for Animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: "0px"
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.card').forEach(card => {
+                observer.observe(card);
+            });
+
+            // Falling Elements (Petals/Leaves)
+            const container = document.getElementById('falling-container');
+            const elementCount = 30;
+            const symbols = ['🌸', '🍂', '✨', '🤍'];
+
+            function createFallingElement() {
+                const el = document.createElement('div');
+                el.classList.add('falling-element');
+
+                // Random symbol
+                el.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+
+                // Random position
+                el.style.left = Math.random() * 100 + 'vw';
+
+                // Random animation duration and delay
+                const duration = Math.random() * 5 + 5 + 's'; // 5-10s
+                const delay = Math.random() * 5 + 's';
+
+                el.style.animationDuration = duration;
+                el.style.animationDelay = delay;
+
+                // Random size
+                const size = Math.random() * 20 + 10 + 'px';
+                el.style.fontSize = size;
+
+                container.appendChild(el);
+
+                // Remove and recreate after animation ends to prevent DOM overload (simple loop)
+                setTimeout(() => {
+                    el.remove();
+                    createFallingElement();
+                }, parseFloat(duration) * 1000 + parseFloat(delay) * 1000);
+            }
+
+            // Initial creation
+            for (let i = 0; i < elementCount; i++) {
+                setTimeout(createFallingElement, Math.random() * 5000);
+            }
+        });
+    </script>
+</body>
+
+</html>
